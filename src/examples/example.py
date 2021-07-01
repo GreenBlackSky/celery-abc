@@ -1,5 +1,7 @@
 from abc import ABC
-from celery_abc import CallerMetaBase, RecieverMetaBase
+from unittest import TestCase
+
+from .celery_abc import CallerMetaBase, RecieverMetaBase
 
 
 class Interface(ABC):
@@ -25,5 +27,10 @@ class Reciever(Interface, metaclass=RecieverMetaBase):
         print("Recieve method_2", arg)
 
 
-Caller("CELERY").method_1(1)
-Reciever("CELERY").method_1(2)
+class TestJoke(TestCase):
+
+    def test_caller(self):
+        Caller("CELERY").method_1(1)
+
+    def test_worker(self):
+        Reciever("CELERY").method_1(2)
