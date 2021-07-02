@@ -1,7 +1,7 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from unittest import TestCase
 
-from .celery_abc import CallerMetaBase, RecieverMetaBase
+from celery_abc import CallerMetaBase, RecieverMetaBase
 
 
 class Interface(ABC):

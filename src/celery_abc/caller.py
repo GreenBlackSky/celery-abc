@@ -1,4 +1,5 @@
 from abc import ABCMeta
+from types import MethodType
 
 
 class CallerMetaBase(ABCMeta):
@@ -10,10 +11,14 @@ class CallerMetaBase(ABCMeta):
         def __init__(self, name):
             self._name = name
 
-        def __call__(self, kargs):
-            # pass celery here
+        def __call__(self, obj, *kargs):
             # get args names
-            print("Sending", self._name, kargs)
+            print("Sending", self._name, obj._celery, kargs)
+
+        def __get__(self, obj, objtype=None):
+            if obj is None:
+                return self
+            return MethodType(self, obj)
 
     def __new__(cls, name, bases, dct):
         dct['__init__'] = CallerMetaBase._init_overriden
