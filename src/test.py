@@ -1,7 +1,9 @@
+"""Test how does it work."""
+
 from abc import ABC, abstractmethod
 from unittest import TestCase
 
-from celery_abc import CallerMetaBase, RecieverMetaBase
+from celery_abc import CallerMetaBase, WorkerMetaBase
 
 
 class Interface(ABC):
@@ -13,12 +15,16 @@ class Interface(ABC):
     def method_2(self, arg):
         pass
 
+    @abstractmethod
+    def method_3(self, arg):
+        pass
+
 
 class Caller(Interface, metaclass=CallerMetaBase):
     pass
 
 
-class Reciever(Interface, metaclass=RecieverMetaBase):
+class Reciever(Interface, metaclass=WorkerMetaBase):
     def method_1(self, arg):
         print("Recieve method_1", arg)
         self.method_2(arg)

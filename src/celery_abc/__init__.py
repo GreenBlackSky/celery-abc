@@ -1,2 +1,2 @@
 from .caller import CallerMetaBase
-from .worker import RecieverMetaBase
+from .worker import WorkerMetaBase

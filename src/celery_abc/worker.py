@@ -5,7 +5,7 @@ from abc import ABCMeta
 from functools import partial
 
 
-class RecieverMetaBase(ABCMeta):
+class WorkerMetaBase(ABCMeta):
     """
     Use as metaclass when impementing the Interface.
 
@@ -19,9 +19,6 @@ class RecieverMetaBase(ABCMeta):
     Alos, replaces constructor `__init__` of base method with the
     constructor of it's own. It takes one argument that is a celery app.
     """
-
-    class _HUB:
-        pass
 
     def _init_overriden(self, celery):
         self._celery = celery
@@ -40,8 +37,8 @@ class RecieverMetaBase(ABCMeta):
         But it is incapable of keeping any instance variables.
         Remember - this class is a tool for creating stateless services.
         """
-        hub = RecieverMetaBase._HUB()
-        dct['__init__'] = RecieverMetaBase._init_overriden
+        hub = type('HUB', (), {})
+        dct['__init__'] = WorkerMetaBase._init_overriden
         dct['_base_name'] = name
         for attr_name, method in dct.items():
             if not attr_name.startswith('_'):
