@@ -11,9 +11,10 @@ class CallerMetaBase(ABCMeta):
         def __init__(self, name):
             self._name = name
 
-        def __call__(self, obj, *kargs):
+        def __call__(self, obj, *args, **kargs):
             # get args names
             print("Sending", self._name, obj._celery, kargs)
+            return obj._celery.send_task(self._name, kwargs=kargs).get()
 
         def __get__(self, obj, objtype=None):
             if obj is None:

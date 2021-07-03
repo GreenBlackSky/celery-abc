@@ -25,12 +25,28 @@ class Reciever(Interface, metaclass=RecieverMetaBase):
 
     def method_2(self, arg):
         print("Recieve method_2", arg)
+        self.method_3(arg)
+
+    def method_3(self, arg):
+        print("Recieve method_3", arg)
+
+
+class celery_mock:
+    def get(self):
+        pass
+
+    def task(self, *args, **kargs):
+        return lambda x: x
+
+    def send_task(self, name, kwargs):
+        print("Calling task", name, kwargs)
+        return self
 
 
 class TestJoke(TestCase):
 
     def test_caller(self):
-        Caller("CELERY").method_1(1)
+        Caller(celery_mock()).method_1(1)
 
     def test_worker(self):
-        Reciever("CELERY").method_1(2)
+        Reciever(celery_mock()).method_1(2)
