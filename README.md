@@ -63,11 +63,19 @@ Here you go, now you can seamlessly call methods of `Worker` from `Caller`. As y
 * Descriptors
 * worker's self
 
+## Example
+Project includes small example module. To run it, create inside `config.env` file with redis creds and run `docker-compose -f "tests\docker-compose.yaml" up -d --build` 
+```
+RABBITMQ_DEFAULT_USER=...
+RABBITMQ_DEFAULT_PASS=...
+RABBITMQ_HOST=...
+RABBITMQ_PORT=...
+```
 ## TODO
 
+fix method-wrapper
 get args names
 Caller dostring
 init docstring
 install
-test
 publish

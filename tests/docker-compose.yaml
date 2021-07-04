@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  rabbit:
+    image: rabbitmq:3.7-management
+    volumes:
+    - ./rabbitmq/etc/:/etc/rabbitmq/
+    - ./rabbitmq/data/:/var/lib/rabbitmq/
+    - ./rabbitmq/logs/:/var/log/rabbitmq/
+    ports:
+      - 5002:15672
+    env_file:
+      - config.env
+
+  # flower:
+  #   image: mher/flower:0.9.5
+  #   ports:
+  #     - 5003:5003
+  #   links:
+  #     - rabbit
+  #   env_file:
+  #     - flower_config.env
+
+  worker:
+    build: ./worker/
+    volumes:
+      - ./worker/src:/app/app
+      - ./shared:/app/shared
+      - ../src/celery_abc:/app/celery_abc
+    depends_on:
+      - rabbit
+    env_file:
+      - config.env
+
+  caller:
+    build: ./caller/
+    volumes:
+      - ./caller/src:/app/app
+      - ./shared:/app/shared
+      - ../src/celery_abc:/app/celery_abc
+    depends_on:
+      - rabbit
+    env_file:
+      - config.env
