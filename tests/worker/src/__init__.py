@@ -14,12 +14,12 @@ class Worker(Interface, metaclass=WorkerMetaBase):
     def do_some_stuff(self, arg):
         """Implementaition of interface method."""
         print("Recieve method_1", arg)
-        self.do_more_stuff(arg)
+        return self.do_more_stuff(arg)
 
     def do_more_stuff(self, arg):
         """Implementaition of interface method."""
         print("Recieve method_2", arg)
-        self.method_3(arg)
+        return "RESULT"
 
 
 celery = Celery(
