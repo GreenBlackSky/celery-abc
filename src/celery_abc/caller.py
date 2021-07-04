@@ -1,21 +1,24 @@
-"""Replace Interface methods with the `celery` tasks."""
+"""Replaces  Interface methods with the `celery` tasks."""
 
 from abc import ABCMeta
+from inspect import FullArgSpec, getfullargspec
 from types import MethodType
 
 
 class CallerMetaBase(ABCMeta):
-    # """Use as metaclass for 
     def _init_overriden(self, celery):
         self._celery = celery
 
     class _CalledTask:
-        def __init__(self, name):
+        def __init__(self, name, args_info: FullArgSpec):
             self._name = name
+            self._arg_names = args_info.args
+            self._defaults = args_info.defaults
 
         def __call__(self, obj, *args, **kargs):
-            # get args names
-            return obj._celery.send_task(self._name, kwargs=kargs).get()
+            all_args = {name: val for name, val in zip(self._arg_names, args)}
+            all_args.update(kargs)
+            return obj._celery.send_task(self._name, kwargs=all_args).get()
 
         def __get__(self, obj, objtype=None):
             if obj is None:
@@ -26,6 +29,11 @@ class CallerMetaBase(ABCMeta):
         dct['__init__'] = CallerMetaBase._init_overriden
         for attr_name in dir(bases[0]):
             if not attr_name.startswith('_'):
-                dct[attr_name] = CallerMetaBase._CalledTask(attr_name)
+                args_info = getfullargspec(getattr(bases[0], attr_name))
+                print(args_info)
+                dct[attr_name] = CallerMetaBase._CalledTask(
+                    attr_name,
+                    args_info
+                )
 
         return ABCMeta.__new__(cls, name, bases, dct)

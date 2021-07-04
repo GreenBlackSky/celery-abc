@@ -2,7 +2,7 @@
 
 
 from abc import ABCMeta
-from functools import partial, update_wrapper
+from functools import partial, wraps
 
 
 class WorkerMetaBase(ABCMeta):
@@ -42,8 +42,7 @@ class WorkerMetaBase(ABCMeta):
         dct['_base_name'] = name
         for attr_name, method in dct.items():
             if not attr_name.startswith('_'):
-                partial_method = partial(method, hub)
-                update_wrapper(partial_method, method)
+                partial_method = wraps(method)(partial(method, hub))
                 setattr(hub, attr_name, partial_method)
                 dct[attr_name] = partial_method
         return ABCMeta.__new__(cls, name, bases, dct)

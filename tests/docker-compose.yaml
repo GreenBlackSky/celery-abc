@@ -40,5 +40,6 @@ services:
       - ../src/celery_abc:/app/celery_abc
     depends_on:
       - rabbit
+      - worker
     env_file:
       - config.env

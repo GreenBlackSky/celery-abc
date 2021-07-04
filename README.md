@@ -74,8 +74,7 @@ RABBITMQ_PORT=...
 ## TODO
 
 fix method-wrapper
-get args names
-Caller dostring
+caller dostring
 init docstring
 install
 publish
