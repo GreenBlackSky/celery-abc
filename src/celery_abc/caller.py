@@ -1,4 +1,4 @@
-"""Replaces  Interface methods with the `celery` tasks."""
+"""Replace abstract interface methods with calls of `celery` tasks."""
 
 from abc import ABCMeta
 from inspect import FullArgSpec, getfullargspec
@@ -6,6 +6,13 @@ from types import MethodType
 
 
 class CallerMetaBase(ABCMeta):
+    """
+    Metabase class for your interface on caller's side.
+
+    It replaces abstract methods with `celery` calls with names like
+    `Interface.method`.
+    """
+
     def _init_overriden(self, celery):
         self._celery = celery
 
@@ -26,6 +33,7 @@ class CallerMetaBase(ABCMeta):
             return MethodType(self, obj)
 
     def __new__(cls, name, bases, dct):
+        """Create new class with all public methods replaced with rpc calls."""
         dct['__init__'] = CallerMetaBase._init_overriden
         for attr_name in dir(bases[0]):
             if not attr_name.startswith('_'):
