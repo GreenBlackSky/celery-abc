@@ -1,6 +1,7 @@
 """Test how does caller work."""
 
 import os
+from time import sleep
 
 from celery import Celery
 from celery_abc import CallerMetaBase
@@ -24,4 +25,8 @@ celery = Celery(
     backend='rpc://'
 )
 caller = Caller(celery)
-print(caller.do_some_stuff)
+while True:
+    print("Requesting task")
+    result = caller.do_some_stuff
+    print("Got result:", result)
+    sleep(5)

@@ -73,8 +73,6 @@ RABBITMQ_PORT=...
 ```
 ## TODO
 
-fix method-wrapper
-caller dostring
-init docstring
+import error in test
 install
 publish

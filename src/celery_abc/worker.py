@@ -2,7 +2,7 @@
 
 
 from abc import ABCMeta
-from functools import partial, wraps
+from functools import wraps
 
 
 class WorkerMetaBase(ABCMeta):
@@ -28,6 +28,14 @@ class WorkerMetaBase(ABCMeta):
                 method = getattr(self, method_name)
                 self._celery.task(name=task_name)(method)
 
+    def _my_partial(method, hub):
+        # For some reason, `celery` doesn't want
+        # to be friends with standart `partial`.
+        @wraps(method)
+        def _wrapper(*args, **kargs):
+            return method(hub, *args, **kargs)
+        return _wrapper
+
     def __new__(cls, name, bases, dct):
         """
         Register methods of implementation as celery tasks.
@@ -42,7 +50,7 @@ class WorkerMetaBase(ABCMeta):
         dct['_base_name'] = name
         for attr_name, method in dct.items():
             if not attr_name.startswith('_'):
-                partial_method = wraps(method)(partial(method, hub))
+                partial_method = WorkerMetaBase._my_partial(method, hub)
                 setattr(hub, attr_name, partial_method)
                 dct[attr_name] = partial_method
         return ABCMeta.__new__(cls, name, bases, dct)
