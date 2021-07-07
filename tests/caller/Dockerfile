@@ -2,6 +2,7 @@ FROM python:3.9-slim-buster
 
 RUN mkdir /app && chmod +rwx /app
 COPY run.sh /app/run.sh
+COPY test_caller.py /app/test_caller.py
 
 WORKDIR /app
 

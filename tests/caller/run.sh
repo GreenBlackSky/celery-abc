@@ -5,4 +5,4 @@ until nc -z ${RABBITMQ_HOST} ${RABBITMQ_PORT}; do
     sleep 2
 done
 
-python app/test_caller.py
+python test_caller.py

@@ -47,7 +47,7 @@ class WorkerMetaBase(ABCMeta):
         """
         hub = type('HUB', (), {})
         dct['__init__'] = WorkerMetaBase._init_overriden
-        dct['_base_name'] = name
+        dct['_base_name'] = bases[0].__name__
         for attr_name, method in dct.items():
             if not attr_name.startswith('_'):
                 partial_method = WorkerMetaBase._my_partial(method, hub)

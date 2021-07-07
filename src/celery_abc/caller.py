@@ -35,12 +35,12 @@ class CallerMetaBase(ABCMeta):
     def __new__(cls, name, bases, dct):
         """Create new class with all public methods replaced with rpc calls."""
         dct['__init__'] = CallerMetaBase._init_overriden
+        base_name = bases[0].__name__
         for attr_name in dir(bases[0]):
             if not attr_name.startswith('_'):
                 args_info = getfullargspec(getattr(bases[0], attr_name))
-                print(args_info)
                 dct[attr_name] = CallerMetaBase._CalledTask(
-                    attr_name,
+                    '.'.join((base_name, attr_name)),
                     args_info
                 )
 
