@@ -13,13 +13,13 @@ class Worker(Interface, metaclass=WorkerMetaBase):
 
     def do_some_stuff(self, arg):
         """Implementaition of interface method."""
-        print("Recieve method_1", arg)
+        print("!!! Recieve call for 'do_some_stuff' with", arg)
         return self.do_more_stuff(arg)
 
     def do_more_stuff(self, arg):
         """Implementaition of interface method."""
-        print("Recieve method_2", arg)
-        return "RESULT"
+        print("!!! Recieve call for do_more_stuff 'with' ", arg)
+        return f"RESULT: {arg}"
 
 
 celery = Celery(

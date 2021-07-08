@@ -61,6 +61,7 @@ Here you go, now you can seamlessly call methods of `Worker` from `Caller`. As y
 * Metaclasses
 * Object-method
 * Descriptors
+* inspect
 * worker's self
 
 ## Example

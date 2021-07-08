@@ -19,7 +19,7 @@ class CallerMetaBase(ABCMeta):
     class _CalledTask:
         def __init__(self, name, args_info: FullArgSpec):
             self._name = name
-            self._arg_names = args_info.args
+            self._arg_names = [arg for arg in args_info.args if arg != 'self']
             self._defaults = args_info.defaults
 
         def __call__(self, obj, *args, **kargs):
@@ -39,8 +39,9 @@ class CallerMetaBase(ABCMeta):
         for attr_name in dir(bases[0]):
             if not attr_name.startswith('_'):
                 args_info = getfullargspec(getattr(bases[0], attr_name))
+                task_name = '.'.join((base_name, attr_name))
                 dct[attr_name] = CallerMetaBase._CalledTask(
-                    '.'.join((base_name, attr_name)),
+                    task_name,
                     args_info
                 )
 

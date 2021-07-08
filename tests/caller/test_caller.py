@@ -26,7 +26,7 @@ celery = Celery(
 )
 caller = Caller(celery)
 while True:
-    print("Requesting task with arg 1")
+    print("!!! Requesting task with arg 1")
     result = caller.do_some_stuff(1)
-    print("Got result:", result)
+    print("!!! Got result:", result)
     sleep(5)
