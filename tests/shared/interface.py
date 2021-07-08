@@ -7,11 +7,11 @@ class Interface(ABC):
     """Interface example."""
 
     @abstractmethod
-    def do_some_stuff(self, arg):
+    def add_three(self, a, b, c):
         """Example method that doesn't actually do stuff."""
         pass
 
     @abstractmethod
-    def do_more_stuff(self, arg):
+    def add(self, a, b):
         """Example method, that doesn't actually do anything."""
         pass

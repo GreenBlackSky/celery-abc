@@ -11,15 +11,15 @@ from shared.interface import Interface
 class Worker(Interface, metaclass=WorkerMetaBase):
     """Worker class exmple."""
 
-    def do_some_stuff(self, arg):
+    def add_three(self, a, b, c):
         """Implementaition of interface method."""
-        print("!!! Recieve call for 'do_some_stuff' with", arg)
-        return self.do_more_stuff(arg)
+        print("!!! Recieve call for 'do_some_stuff' with", a, b, c)
+        return self.add(a, self.add(b, c))
 
-    def do_more_stuff(self, arg):
+    def add(self, a, b):
         """Implementaition of interface method."""
-        print("!!! Recieve call for do_more_stuff 'with' ", arg)
-        return f"RESULT: {arg}"
+        print("!!! Recieve call for do_more_stuff 'with' ", a, b)
+        return a + b
 
 
 celery = Celery(

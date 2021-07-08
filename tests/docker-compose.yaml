@@ -35,7 +35,6 @@ services:
   caller:
     build: ./caller/
     volumes:
-      - ./caller/src:/app/app
       - ./shared:/app/shared
       - ../src/celery_abc:/app/celery_abc
     depends_on:
