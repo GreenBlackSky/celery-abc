@@ -24,9 +24,15 @@ celery = Celery(
     ),
     backend='rpc://'
 )
+
+
 caller = Caller(celery)
-while True:
-    print("!!! Requesting task with arg 1")
-    result = caller.add_three(1, 2, 3)
-    print("!!! Got result:", result)
-    sleep(5)
+
+
+if __name__ == '__main__':
+    while True:
+        a, b, c = 1, 2, 3
+        print("add_three <<<", a, b, c)
+        result = caller.add_three(a, b, c)
+        print("add_three >>>", result)
+        sleep(5)

@@ -74,6 +74,5 @@ RABBITMQ_PORT=...
 ```
 ## TODO
 
-* not registered error
 * install
 * publish

@@ -13,13 +13,17 @@ class Worker(Interface, metaclass=WorkerMetaBase):
 
     def add_three(self, a, b, c):
         """Implementaition of interface method."""
-        print("!!! Recieve call for 'do_some_stuff' with", a, b, c)
-        return self.add(a, self.add(b, c))
+        print("add_three <<<", a, b, c)
+        ret = self.add(a, self.add(b, c))
+        print("add_three >>>", ret)
+        return ret
 
     def add(self, a, b):
         """Implementaition of interface method."""
-        print("!!! Recieve call for do_more_stuff 'with' ", a, b)
-        return a + b
+        print("add <<< ", a, b)
+        ret = a + b
+        print("add >>>", ret)
+        return ret
 
 
 celery = Celery(

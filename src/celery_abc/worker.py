@@ -3,7 +3,7 @@
 
 from abc import ABCMeta
 from functools import wraps
-from inspect import getfullargspec
+from inspect import getfullargspec, signature
 
 
 class WorkerMetaBase(ABCMeta):
@@ -33,19 +33,18 @@ class WorkerMetaBase(ABCMeta):
         # For some reason, `celery` doesn't want
         # to be friends with standart `partial`.
         arg_names = [
-            arg
-            for arg in getfullargspec(method).args
+            arg for arg in getfullargspec(method).args
             if arg != 'self'
         ]
 
         @wraps(method)
         def _wrapper(*args, **kargs):
-            all_args = {name: val for name, val in zip(arg_names, args[1:])}
-            print(f"!!! args: {args}")
-            print(f"!!! kargs: {kargs}")
-            print(f"!!! all args: {all_args}")
-            return method(self=hub, **all_args)
-        # _wrapper.__signature__ = signature(method)
+            all_args = dict(zip(arg_names, args))
+            all_args.update(kargs)
+            all_args['self'] = hub
+            return method(**all_args)
+
+        _wrapper.__signature__ = signature(method)
         return _wrapper
 
     def __new__(cls, name, bases, dct):
