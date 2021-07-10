@@ -19,14 +19,44 @@ about the implementation. `Worker` has `Interface` implemented.
 2. In the shared folder create python module. Define your
 interfaces there. For now, `celery-abc` requires for `Interface`
 to be abstract.
+>>> from abc import ABC, abstractmethod
+
+>>> class Interface(ABC):
+>>>     @abstractmethod
+>>>     def do_some_stuff(self, arg):
+>>>         pass
+>>>     @abstractmethod
+>>>     def do_more_stuff(self, arg):
+>>>         pass
 3. In your `Worker` service import `Interface` from shared module
 and implement it. Metaclass for your implementation should be
 `WorkerMetaBase` from `celery-abc`. You don't need to register
 it's methods, just instantiate your class with `celery`.
+Run your `worker` as a celery worker.
+>>> from celery import Celery
+>>> from celery_abc import WorkerMetaBase
+>>> from shared import Interface
+
+>>> class Worker(Interface, metaclass=WorkerMetaBase):
+>>>     def do_some_stuff(self, arg):
+>>>         return self.do_more_stuff(arg)
+
+>>>     def do_more_stuff(self, arg):
+>>>         return f"Doing stuff {arg}"
+
+>>> celery_app = Celery(...)
+>>> Worker(celery)
 4. In `Caller` service import `CallerMetaBase`, create a new
 class, that inherits from `Interface` and have `CallerMetaBase`
-as a metaclass. Instantiate it with your `celery` app. Now, you
-can call methods, that are implemented in the `Worker` =)
+as a metaclass. Instantiate it with your `celery` app.
+Unlike `worker`, `caller` may run just as regular python app.
+>>> class Caller(Interface, metaclass=CallerMetaBase):
+>>>     pass
+
+>>> celery_app = Celery(...)
+>>> caller = Caller(celery)
+>>> result = caller.do_some_stuff('Hello!')
+Now, you can call methods, that are implemented in the `Worker` =)
 
 Here you go, now you can seamlessly call methods of `Worker` from
 `Caller`. As you can see, you can call `Worker`'s methods from each

@@ -28,7 +28,7 @@ class Interface(ABC):
     def do_more_stuff(self, arg):
         pass
 ```
-3. In your `Worker` service import `Interface` from shared module and implement it. Metaclass for your implementation should be `WorkerMetaBase` from `celery-abc`. You don't need to register it's methods, just instantiate your class with `celery`.
+3. In your `Worker` service import `Interface` from shared module and implement it. Metaclass for your implementation should be `WorkerMetaBase` from `celery-abc`. You don't need to register it's methods, just instantiate your class with `celery`. Run your `worker` as a celery worker.
 ```python
 from celery import Celery
 from celery_abc import WorkerMetaBase
@@ -44,7 +44,7 @@ class Worker(Interface, metaclass=WorkerMetaBase):
 celery_app = Celery(...)
 Worker(celery)
 ```
-4. In `Caller` service import `CallerMetaBase`, create a new class, that inherits from `Interface` and have `CallerMetaBase` as a metaclass. Instantiate it with your `celery` app. Now, you can call methods, that are implemented in the `Worker` =)
+4. In `Caller` service import `CallerMetaBase`, create a new class, that inherits from `Interface` and have `CallerMetaBase` as a metaclass. Instantiate it with your `celery` app. Unlike `worker`, `caller` may run just as regular python app. Now, you can call methods, that are implemented in the `Worker` =)
 ```python
 class Caller(Interface, metaclass=CallerMetaBase):
     pass
@@ -72,7 +72,3 @@ RABBITMQ_DEFAULT_PASS=...
 RABBITMQ_HOST=...
 RABBITMQ_PORT=...
 ```
-## TODO
-
-* install
-* publish
