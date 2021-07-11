@@ -56,6 +56,10 @@ class WorkerMetaBase(ABCMeta):
         But it is incapable of keeping any instance variables.
         Remember - this class is a tool for creating stateless services.
         """
+        if len(bases) != 1:
+            raise Exception(
+                "Can't create worker class with more than one parent, yet"
+            )
         hub = type('HUB', (), {})
         dct['__init__'] = WorkerMetaBase._init_overriden
         dct['_base_name'] = bases[0].__name__

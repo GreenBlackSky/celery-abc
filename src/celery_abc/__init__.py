@@ -62,6 +62,13 @@ Here you go, now you can seamlessly call methods of `Worker` from
 `Caller`. As you can see, you can call `Worker`'s methods from each
 other. But you can not keep any instnce variables in `Worker`'s `self`.
 In the end, microservices are better when they are stateless.
+
+Resrictions and limitations:
+If you want to create statefull microservices - you still can use `celery-abc`,
+if only for comunication. But there may be other solutions.
+
+If you want to create complex system of classes. OOP is cool,
+but multiple and chaind inheritance are not supported at the moment.
 """
 
 from .caller import CallerMetaBase

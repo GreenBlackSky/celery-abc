@@ -34,6 +34,10 @@ class CallerMetaBase(ABCMeta):
 
     def __new__(cls, name, bases, dct):
         """Create new class with all public methods replaced with rpc calls."""
+        if len(bases) != 1:
+            raise Exception(
+                "Can't create caller class with more than one parent, yet"
+            )
         dct['__init__'] = CallerMetaBase._init_overriden
         base_name = bases[0].__name__
         for attr_name in dir(bases[0]):

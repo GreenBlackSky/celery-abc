@@ -8,10 +8,10 @@ class Interface(ABC):
 
     @abstractmethod
     def add_three(self, a, b, c):
-        """Example method that doesn't actually do stuff."""
+        """Add three values."""
         pass
 
     @abstractmethod
     def add(self, a, b):
-        """Example method, that doesn't actually do anything."""
+        """Add two values."""
         pass
