@@ -10,6 +10,7 @@ RUN chmod +x /app/run.sh && \
     apt-get update && \
     apt-get -y dist-upgrade && \
     apt-get -y install bash netcat && \
-    pip install celery
+    pip install celery && \
+    pip install pytest
 
 CMD ./run.sh

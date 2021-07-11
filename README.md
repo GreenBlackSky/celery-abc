@@ -58,6 +58,7 @@ Here you go, now you can seamlessly call methods of `Worker` from `Caller`. As y
 ## When not to use it?
 * If you want to create statefull microservices - you still can use `celery-abc`, if only for comunication. But there may be other solutions.
 * If you want to create complex system of classes. OOP is cool, but multiple and chaind inheritance are not supported at the moment.
+* Method signature can't have `*args` and `**kwargs` in it. It is totally fine to pass argumetns this way, but capturing them is not supported yet.
 
 ## Interesting stuff
 
@@ -76,3 +77,7 @@ RABBITMQ_DEFAULT_PASS=...
 RABBITMQ_HOST=...
 RABBITMQ_PORT=...
 ```
+
+## In the future:
+* Support inheritance
+* Support capturing arguments

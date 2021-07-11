@@ -66,6 +66,9 @@ In the end, microservices are better when they are stateless.
 Resrictions and limitations:
 If you want to create statefull microservices - you still can use `celery-abc`,
 if only for comunication. But there may be other solutions.
+Method signature can't have `*args` and `**kwargs` in it.
+It is totally fine to pass argumetns this way,
+but capturing them is not supported yet.
 
 If you want to create complex system of classes. OOP is cool,
 but multiple and chaind inheritance are not supported at the moment.
