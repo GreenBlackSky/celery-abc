@@ -1,10 +1,10 @@
 # celery-abc
 
-It's time for some dynamic meta-magic!
+It's time for some crazy dynamic meta-magic!
 
 ## What is it?
 
-Set of tools to create microservice app with `celery` as message brocker.
+Rpc tool with `celery` as a message brocker.
 
 ## When to use it?
 
@@ -57,17 +57,18 @@ Here you go, now you can seamlessly call methods of `Worker` from `Caller`. As y
 
 ## When not to use it?
 * If you want to create statefull microservices - you still can use `celery-abc`, if only for comunication. But there may be other solutions.
-* If you want to create complex system of classes. OOP is cool, but multiple and chaind inheritance are not supported at the moment.
+* If you want to create complex system of classes. OOP is cool, but multiple and/or chaind inheritance are not supported at the moment.
 * Method signature can't have `*args` and `**kwargs` in it. It is totally fine to pass argumetns this way, but capturing them is not supported yet.
 
 ## Interesting stuff
 
-* Abstract methods
-* Metaclasses
-* Object-method
-* Descriptors
-* inspect
-* worker's self
+### Worker's self
+### Abstract methods
+Wierdly enough, many professional developers have no idea that python has abstract classes. It is a thing and it's much better alternative to throwing `NotImplemented`. Becouse abstract class throws exception on the start of the programm and (if you try to instantiate it) and becouse expirienced developer instantly knows that your class is abstract and what it means. Though, abstract classes in python are not infaliable, you can bypass them. Which I totaly did in this very package.
+### Metaclasses
+### Object-method
+### Descriptors
+### Inspect
 
 ## Example
 Project includes small example module. To run it, create inside `config.env` file with redis creds and run `docker-compose -f "tests\docker-compose.yaml" up -d --build` 
@@ -81,3 +82,4 @@ RABBITMQ_PORT=...
 ## In the future:
 * Support inheritance
 * Support capturing arguments
+* Support async execution

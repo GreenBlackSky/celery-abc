@@ -20,7 +20,7 @@ class CallerMetaBase(ABCMeta):
         def __init__(self, name, args_info: FullArgSpec):
             self._name = name
             self._arg_names = [arg for arg in args_info.args if arg != 'self']
-            self._defaults = args_info.defaults
+            self._agrs_info = args_info
 
         def __call__(self, obj, *args, **kargs):
             all_args = {name: val for name, val in zip(self._arg_names, args)}
